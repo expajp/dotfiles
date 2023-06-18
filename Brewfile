@@ -13,6 +13,7 @@ brew "gnu-tar"
 brew "grep"
 brew "gzip"
 brew "jq"
+brew "mas"
 brew "nvm"
 brew "pure"
 brew "rust"
@@ -34,5 +35,13 @@ cask "rubymine"
 cask "skitch"
 cask "slack"
 cask "visual-studio-code"
+mas "GarageBand", id: 682658836
+mas "GoodNotes", id: 1444383602
+mas "iMovie", id: 408981434
+mas "Keynote", id: 409183694
+mas "LINE", id: 539883307
+mas "Numbers", id: 409203825
+mas "Pages", id: 409201541
+mas "Tomato 2", id: 1494210770
 vscode "adrianwilczynski.terminal-commands"
 vscode "MS-CEINTL.vscode-language-pack-ja"
