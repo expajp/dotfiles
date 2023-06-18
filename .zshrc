@@ -36,7 +36,6 @@ autoload -Uz colors && colors
 # use newly installed commands instantly
 zstyle ":completion:*:commands" rehash 1
 
-
 # prompt
 export CLICOLOR=1
 
@@ -58,6 +57,11 @@ function left-prompt {
 
 PROMPT=`left-prompt` 
 
+# aliases
+alias awk='gawk'
+alias sed='gsed'
+alias tar='gtar'
+alias grep='ggrep'
 
 add_newline() {
   if [[ -z $PS1_NEWLINE_LOGIN ]]; then
