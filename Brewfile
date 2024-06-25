@@ -1,7 +1,7 @@
 tap "homebrew/bundle"
 tap "homebrew/cask"
 tap "homebrew/core"
-brew "anyenv"
+brew "mise"
 brew "coreutils"
 brew "diffutils"
 brew "emacs"

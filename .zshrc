@@ -1,14 +1,14 @@
 # Homebrew
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
-# anyenv
-eval "$(anyenv init -)"
-eval "$(rbenv init - zsh)"
+# mise
+eval "$(mise activate zsh)"
 
-# nvm
-export NVM_DIR="$HOME/.nvm"
-[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
-[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+# PATH
+export PATH="/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH"
+export PATH="/opt/homebrew/opt/gnu-sed/libexec/gnubin:$PATH"
+export PATH="/opt/homebrew/opt/grep/libexec/gnubin:$PATH"
+export PATH="$HOME/bin:$PATH"
 
 export PATH
 
