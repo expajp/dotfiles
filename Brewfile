@@ -34,6 +34,7 @@ cask "rubymine"
 cask "skitch"
 cask "slack"
 cask "visual-studio-code"
+cask "font-menlo-for-powerline"
 mas "GarageBand", id: 682658836
 mas "GoodNotes", id: 1444383602
 mas "iMovie", id: 408981434
