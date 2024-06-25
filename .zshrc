@@ -112,6 +112,12 @@ alias awk='gawk'
 alias sed='gsed'
 alias tar='gtar'
 alias grep='ggrep'
+alias after_pull='after_pull.sh'
+alias switch='switch.sh'
+alias reset='git reset --hard HEAD'
+alias dtfmt='+\"%Y%m%d\"'
+alias currentbranch='git rev-parse --abbrev-ref HEAD | pbcopy && pbpaste'
+alias restore='git restore .'
 
 add_newline() {
   if [[ -z $PS1_NEWLINE_LOGIN ]]; then
