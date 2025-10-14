@@ -1,0 +1,10 @@
+# This is Git's per-user configuration file.
+[user]
+       name = Shu Oogawara
+       email = expajp@gmail.com
+[core]
+       editor = emacs -nw
+
+# Please adapt and uncomment the following lines:
+#	name = Shu Oogawara
+#	email = expajp@ShunoMac-mini.local
