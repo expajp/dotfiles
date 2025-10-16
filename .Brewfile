@@ -27,6 +27,8 @@ cask "google-chrome"
 cask "google-drive"
 cask "hyper"
 cask "logi-options+"
+cask "microsoft-auto-update"
+cask "microsoft-powerpoint"
 cask "slack"
 cask "visual-studio-code"
 mas "GarageBand", id: 682658836
