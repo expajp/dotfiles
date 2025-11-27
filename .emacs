@@ -18,5 +18,6 @@
 (prefer-coding-system 'utf-8)
 
 ;;; mark set
-(global-set-key (kbd "C-c @") 'set-mark-command)
+;;; (global-set-key (kbd "C-c @") 'set-mark-command) ;;; C-SPC が上手く効かない場合
+(global-set-key (kbd "C-SPC") 'set-mark-command)
 
