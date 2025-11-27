@@ -130,3 +130,8 @@ add_newline() {
 precmd() {
   add_newline
 }
+
+# .zshrc.local というファイルが存在する場合のみ読み込む
+if [ -f ~/.zshrc.local ]; then
+    source ~/.zshrc.local
+fi
