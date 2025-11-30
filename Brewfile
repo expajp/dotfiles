@@ -1,3 +1,4 @@
+tap "olets/tap"
 brew "coreutils"
 brew "diffutils"
 brew "emacs"
@@ -9,16 +10,17 @@ brew "gnu-tar"
 brew "grep"
 brew "gzip"
 brew "jq"
-brew "xz"
+brew "libyaml"
 brew "mas"
 brew "mise"
 brew "peco"
-brew "rust"
 brew "wget"
+brew "xz"
 brew "zplug"
 brew "zsh-autosuggestions"
 brew "zsh-completions"
 brew "zsh-git-prompt"
+brew "olets/tap/zsh-abbr"
 cask "1password"
 cask "discord"
 cask "docker-desktop"
@@ -40,5 +42,7 @@ mas "Numbers", id: 409203825
 mas "Pages", id: 409201541
 mas "Skitch", id: 425955336
 mas "Tomato 2", id: 1494210770
+mas "Windows App", id: 1295203466
 vscode "adrianwilczynski.terminal-commands"
 vscode "ms-ceintl.vscode-language-pack-ja"
+vscode "yzhang.markdown-all-in-one"

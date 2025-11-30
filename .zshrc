@@ -13,6 +13,9 @@ export PATH="$HOME/.local/bin:$PATH"
 
 export PATH
 
+# zsh-abbr
+source /opt/homebrew/share/zsh-abbr/zsh-abbr.zsh
+
 # zplug
 export ZPLUG_HOME=/opt/homebrew/opt/zplug
 source $ZPLUG_HOME/init.zsh
