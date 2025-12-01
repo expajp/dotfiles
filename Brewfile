@@ -44,5 +44,6 @@ mas "Skitch", id: 425955336
 mas "Tomato 2", id: 1494210770
 mas "Windows App", id: 1295203466
 vscode "adrianwilczynski.terminal-commands"
+vscode "marp-team.marp-vscode"
 vscode "ms-ceintl.vscode-language-pack-ja"
 vscode "yzhang.markdown-all-in-one"
