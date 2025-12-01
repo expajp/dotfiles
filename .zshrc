@@ -111,16 +111,12 @@ setopt prompt_subst
 
 RPROMPT='`rprompt-git-current-branch`'
 
-# aliases
-alias awk='gawk'
-alias sed='gsed'
-alias tar='gtar'
-alias grep='ggrep'
-alias switch='switch.sh'
-alias reset='git reset --hard HEAD'
-alias dtfmt='+\"%Y%m%d\"'
-alias currentbranch='git rev-parse --abbrev-ref HEAD | pbcopy && pbpaste'
-alias restore='git restore .'
+# abbrs
+abbr -S greset='git reset --hard HEAD' >/dev/null
+abbr -S switch='switch.sh' >/dev/null
+abbr -S dtfmt='+\"%Y%m%d\"' >/dev/null
+abbr -S currentbranch='git rev-parse --abbrev-ref HEAD | pbcopy && pbpaste' >/dev/null
+abbr -S restore='git restore .' >/dev/null
 
 add_newline() {
   if [[ -z $PS1_NEWLINE_LOGIN ]]; then
