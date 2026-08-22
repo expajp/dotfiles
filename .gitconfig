@@ -8,3 +8,5 @@
 # Please adapt and uncomment the following lines:
 #	name = Shu Oogawara
 #	email = expajp@ShunoMac-mini.local
+[init]
+	defaultBranch = main
