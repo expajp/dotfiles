@@ -35,13 +35,24 @@ fi
 
 echo ""
 echo "===== brew の自動アップグレード設定 ====="
+# ~/.local/bin の存在確認
+if [ -d ~/.local/bin ]; then
+  echo "~/.local/bin は既に存在します。"
+else
+  mkdir -p ~/.local/bin
+  echo "~/.local/bin を作成しました。"
+fi
+
 # copy brew-upgrade.sh
-mkdir -p ~/.local/bin
-cp ~/dotfiles/brew-upgrade.sh ~/.local/bin/brew-upgrade
+cp -f ~/dotfiles/brew-upgrade.sh ~/.local/bin/brew-upgrade
 chmod 755 ~/.local/bin/brew-upgrade
 
-# link to LaunchAgents
-ln -sf ~/dotfiles/local.homebrew.upgrade.plist ~/Library/LaunchAgents/local.homebrew.upgrade.plist
+# copy plist to LaunchAgents（パスはコピー後に実際の $HOME へ書き換える）
+# 旧バージョンのスクリプトが symlink で配置していた場合、コピー元と同一ファイルに
+# なってしまい cp が失敗するため、先に既存のリンク/ファイルを削除しておく
+rm -f ~/Library/LaunchAgents/local.homebrew.upgrade.plist
+cp -f ~/dotfiles/local.homebrew.upgrade.plist ~/Library/LaunchAgents/local.homebrew.upgrade.plist
+sed -i '' "s|__HOME__|$HOME|g" ~/Library/LaunchAgents/local.homebrew.upgrade.plist
 
 # register LaunchAgent
 launchctl bootout gui/$(id -u) ~/Library/LaunchAgents/local.homebrew.upgrade.plist 2>/dev/null || true
@@ -55,7 +66,7 @@ echo ""
 echo "===== dotfiles のシンボリックリンクを作成 ====="
 # copy switch.sh
 mkdir -p ~/bin
-cp ~/dotfiles/switch.sh ~/bin/switch.sh
+cp -f ~/dotfiles/switch.sh ~/bin/switch.sh
 chmod 755 ~/bin/switch.sh
 
 # GNU tools へのシンボリックリンク

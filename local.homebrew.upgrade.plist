@@ -8,7 +8,7 @@
 
     <key>ProgramArguments</key>
     <array>
-        <string>/Users/expajp/.local/bin/brew-upgrade</string>
+        <string>__HOME__/.local/bin/brew-upgrade</string>
     </array>
 
     <key>StartCalendarInterval</key>
@@ -22,9 +22,9 @@
     </dict>
 
     <key>StandardOutPath</key>
-    <string>/Users/expajp/Library/Logs/brew-upgrade.log</string>
+    <string>__HOME__/Library/Logs/brew-upgrade.log</string>
 
     <key>StandardErrorPath</key>
-    <string>/Users/expajp/Library/Logs/brew-upgrade.log</string>
+    <string>__HOME__/Library/Logs/brew-upgrade.log</string>
 </dict>
 </plist>
