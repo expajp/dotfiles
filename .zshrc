@@ -22,7 +22,6 @@ source $ZPLUG_HOME/init.zsh
 
 zplug "modules/history", from:prezto
 zplug "modules/directory", from:prezto
-zplug "modules/osx", from:prezto
 zplug "olets/zsh-autosuggestions-abbreviations-strategy"
 
 if ! zplug check --verbose; then zplug install;fi
