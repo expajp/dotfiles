@@ -44,6 +44,9 @@ else
 fi
 
 # copy brew-upgrade.sh
+# 旧バージョンのスクリプトが symlink で配置していた場合、コピー元と同一ファイルに
+# なってしまい cp が失敗するため、先に既存のリンク/ファイルを削除しておく
+rm -f ~/.local/bin/brew-upgrade
 cp -f ~/dotfiles/brew-upgrade.sh ~/.local/bin/brew-upgrade
 chmod 755 ~/.local/bin/brew-upgrade
 
@@ -68,6 +71,9 @@ echo ""
 echo "===== dotfiles のシンボリックリンクを作成 ====="
 # copy switch.sh
 mkdir -p ~/bin
+# 旧バージョンのスクリプトが symlink で配置していた場合、コピー元と同一ファイルに
+# なってしまい cp が失敗するため、先に既存のリンク/ファイルを削除しておく
+rm -f ~/bin/switch.sh
 cp -f ~/dotfiles/switch.sh ~/bin/switch.sh
 chmod 755 ~/bin/switch.sh
 
