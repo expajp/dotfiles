@@ -1,0 +1,96 @@
+#!/bin/sh
+# 新しい Mac のセットアップを一括実行する。
+# Homebrew のインストールのみ、セキュリティ上の理由から自動実行はせず手動対応を促す。
+set -e
+
+DOTFILES_DIR="$(cd "$(dirname "$0")" && pwd)"
+
+echo "===== Homebrew ====="
+if ! command -v brew >/dev/null 2>&1; then
+  echo "Homebrew がインストールされていません。"
+  echo "セキュリティ上の理由から、このスクリプトは Homebrew のインストールを自動実行しません。"
+  echo "以下の公式インストーラーを手動で実行してから、このスクリプトを再実行してください。"
+  echo ""
+  echo '  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"'
+  echo ""
+  echo "  https://brew.sh"
+  exit 1
+fi
+echo "Homebrew は導入済みです。"
+
+echo ""
+echo "===== ~/dotfiles のリンク ====="
+if [ -e "$HOME/dotfiles" ] || [ -L "$HOME/dotfiles" ]; then
+  if [ "$HOME/dotfiles" -ef "$DOTFILES_DIR" ]; then
+    echo "~/dotfiles は既にこのリポジトリを指しています。"
+  else
+    echo "エラー: ~/dotfiles が既に存在し、このリポジトリ ($DOTFILES_DIR) とは異なる場所を指しています。"
+    echo "内容を確認の上、手動で対処してください。"
+    exit 1
+  fi
+else
+  ln -s "$DOTFILES_DIR" "$HOME/dotfiles"
+  echo "~/dotfiles -> $DOTFILES_DIR にリンクしました。"
+fi
+
+echo ""
+echo "===== brew の自動アップグレード設定 ====="
+# copy brew-upgrade.sh
+mkdir -p ~/.local/bin
+cp ~/dotfiles/brew-upgrade.sh ~/.local/bin/brew-upgrade
+chmod 755 ~/.local/bin/brew-upgrade
+
+# link to LaunchAgents
+ln -sf ~/dotfiles/local.homebrew.upgrade.plist ~/Library/LaunchAgents/local.homebrew.upgrade.plist
+
+# register LaunchAgent
+launchctl bootout gui/$(id -u) ~/Library/LaunchAgents/local.homebrew.upgrade.plist 2>/dev/null || true
+launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/local.homebrew.upgrade.plist
+
+echo ""
+echo "===== Brewfile からパッケージをインストール ====="
+brew bundle --file="$HOME/dotfiles/Brewfile"
+
+echo ""
+echo "===== dotfiles のシンボリックリンクを作成 ====="
+# copy switch.sh
+mkdir -p ~/bin
+cp ~/dotfiles/switch.sh ~/bin/switch.sh
+chmod 755 ~/bin/switch.sh
+
+# GNU tools へのシンボリックリンク
+ln -sf `which gawk` $HOME/bin/awk
+ln -sf `which gsed` $HOME/bin/sed
+ln -sf `which gtar` $HOME/bin/tar
+ln -sf `which ggrep` $HOME/bin/grep
+
+# dotfiles
+ln -sf ~/dotfiles/.zshrc ~/.zshrc
+touch ~/.zshrc.local
+
+ln -sf ~/dotfiles/.emacs ~/.emacs
+ln -sf ~/dotfiles/.gitconfig ~/.gitconfig
+ln -sf ~/dotfiles/.hyper.js  ~/.hyper.js
+
+# claude skills
+if ! command -v claude >/dev/null 2>&1; then
+  echo "claude がインストールされていません。先に Claude Code をインストールしてください。"
+  echo "  https://claude.ai/code"
+else
+  git -C ~/dotfiles submodule update --init --recursive
+  ln -sf ~/dotfiles/.claude/skills ~/.claude/skills
+  cd ~/dotfiles/.claude/skills && for skill in pdf docx pptx xlsx claude-api discernment-nudge skill-creator; do ln -sf ../vendor/anthropics-skills/skills/$skill $skill; done
+fi
+
+# mise
+if ! command -v mise >/dev/null 2>&1; then
+  echo "mise がインストールされていません。先に mise をインストールしてください。"
+  echo "  https://mise.jdx.dev/getting-started.html"
+else
+  mkdir -p ~/.config/mise
+  ln -sf ~/dotfiles/mise.toml ~/.config/mise/config.toml
+  ln -sf ~/dotfiles/mise.lock ~/.config/mise/mise.lock
+fi
+
+echo ""
+echo "===== セットアップ完了 ====="
