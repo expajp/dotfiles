@@ -21,9 +21,7 @@ export ZPLUG_HOME=/opt/homebrew/opt/zplug
 source $ZPLUG_HOME/init.zsh
 
 # https://github.com/olets/zsh-autosuggestions-abbreviations-strategy/commit/3ce24713e4a49f9a5060d9016d35f3cd048d1c74
-zplug "olets/zsh-autosuggestions-abbreviations-strategy", 
-  at: 3ce24713e4a49f9a5060d9016d35f3cd048d1c74,
-  frozen: 1
+zplug "olets/zsh-autosuggestions-abbreviations-strategy", at:3ce24713e4a49f9a5060d9016d35f3cd048d1c74, frozen:1
 
 if ! zplug check --verbose; then zplug install; fi
 zplug load #--verbose
