@@ -92,7 +92,7 @@ function left-prompt {
   text_color='%{\e[38;5;'    # テキスト色を設定
   back_color='%{\e[30;48;5;' # 背景色を設定
   reset='%{\e[0m%}'   # リセット
-  sharp=''      # 三角形（パワーライン記号）
+  sharp='>'     # セクション区切り
 
   user="${back_color}${name_b}${text_color}${name_t}"
   dir="${back_color}${path_b}${text_color}${path_t}"
@@ -105,7 +105,7 @@ PROMPT=`left-prompt`
 function rprompt-git-current-branch {
   local branch_name st branch_status
 
-  branch=''
+  branch='#'
   color='%{\e[38;5;' #  文字色を設定
   green='114m%}'
   red='001m%}'
