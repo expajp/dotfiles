@@ -81,6 +81,8 @@ autoload -Uz colors && colors
 zstyle ":completion:*:commands" rehash 1
 
 # プロンプト
+# Zsh の見栄えをいい感じにする。 git のブランチも表示する。 #Git - Qiita 
+# https://qiita.com/ryskBonn92/items/783b4f40601850b1c321
 export CLICOLOR=1
 
 function left-prompt {
