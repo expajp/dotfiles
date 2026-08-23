@@ -20,8 +20,6 @@ source /opt/homebrew/share/zsh-abbr/zsh-abbr.zsh
 export ZPLUG_HOME=/opt/homebrew/opt/zplug
 source $ZPLUG_HOME/init.zsh
 
-zplug "modules/directory", from:prezto
-
 # https://github.com/olets/zsh-autosuggestions-abbreviations-strategy/commit/3ce24713e4a49f9a5060d9016d35f3cd048d1c74
 zplug "olets/zsh-autosuggestions-abbreviations-strategy", 
   at: 3ce24713e4a49f9a5060d9016d35f3cd048d1c74,
@@ -61,6 +59,22 @@ HISTSIZE=10000                                         # The maximum number of e
 SAVEHIST=$HISTSIZE                                     # The maximum number of events to save in the history file.
 
 alias history-stat="history 0 | awk '{print \$2}' | sort | uniq -c | sort -n -r | head"
+
+# directory (prezto modules/directory 相当)
+setopt AUTO_CD              # Auto changes to a directory without typing cd.
+setopt AUTO_PUSHD           # Push the old directory onto the stack on cd.
+setopt PUSHD_IGNORE_DUPS    # Do not store duplicates in the stack.
+setopt PUSHD_SILENT         # Do not print the directory stack after pushd or popd.
+setopt PUSHD_TO_HOME        # Push to home directory when no argument is given.
+setopt CDABLE_VARS          # Change directory to a path stored in a variable.
+setopt MULTIOS              # Write to multiple descriptors.
+setopt EXTENDED_GLOB        # Use extended globbing syntax.
+unsetopt CLOBBER            # Do not overwrite existing files with > and >>.
+                            # Use >! and >>! to bypass.
+
+alias -- -='cd -'
+alias d='dirs -v'
+for index ({1..9}) alias "$index"="cd +${index}"; unset index
 
 # colors
 autoload -Uz colors && colors
