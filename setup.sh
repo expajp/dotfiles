@@ -52,7 +52,9 @@ chmod 755 ~/.local/bin/brew-upgrade
 # なってしまい cp が失敗するため、先に既存のリンク/ファイルを削除しておく
 rm -f ~/Library/LaunchAgents/local.homebrew.upgrade.plist
 cp -f ~/dotfiles/local.homebrew.upgrade.plist ~/Library/LaunchAgents/local.homebrew.upgrade.plist
-sed -i '' "s|__HOME__|$HOME|g" ~/Library/LaunchAgents/local.homebrew.upgrade.plist
+# -i の書式がBSD sedとGNU sedで異なるため、両対応できる -i.bak 形式を使う
+sed -i.bak "s|__HOME__|$HOME|g" ~/Library/LaunchAgents/local.homebrew.upgrade.plist
+rm -f ~/Library/LaunchAgents/local.homebrew.upgrade.plist.bak
 
 # register LaunchAgent
 launchctl bootout gui/$(id -u) ~/Library/LaunchAgents/local.homebrew.upgrade.plist 2>/dev/null || true
