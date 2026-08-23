@@ -78,18 +78,18 @@ cp -f ~/dotfiles/switch.sh ~/bin/switch.sh
 chmod 755 ~/bin/switch.sh
 
 # GNU tools へのシンボリックリンク
-ln -sf `which gawk` $HOME/bin/awk
-ln -sf `which gsed` $HOME/bin/sed
-ln -sf `which gtar` $HOME/bin/tar
-ln -sf `which ggrep` $HOME/bin/grep
+ln -sfn `which gawk` $HOME/bin/awk
+ln -sfn `which gsed` $HOME/bin/sed
+ln -sfn `which gtar` $HOME/bin/tar
+ln -sfn `which ggrep` $HOME/bin/grep
 
 # dotfiles
-ln -sf ~/dotfiles/.zshrc ~/.zshrc
+ln -sfn ~/dotfiles/.zshrc ~/.zshrc
 touch ~/.zshrc.local
 
-ln -sf ~/dotfiles/.emacs ~/.emacs
-ln -sf ~/dotfiles/.gitconfig ~/.gitconfig
-ln -sf ~/dotfiles/.hyper.js  ~/.hyper.js
+ln -sfn ~/dotfiles/.emacs ~/.emacs
+ln -sfn ~/dotfiles/.gitconfig ~/.gitconfig
+ln -sfn ~/dotfiles/.hyper.js  ~/.hyper.js
 
 # claude skills
 if ! command -v claude >/dev/null 2>&1; then
@@ -97,8 +97,8 @@ if ! command -v claude >/dev/null 2>&1; then
   echo "  https://claude.ai/code"
 else
   git -C ~/dotfiles submodule update --init --recursive
-  ln -sf ~/dotfiles/.claude/skills ~/.claude/skills
-  cd ~/dotfiles/.claude/skills && for skill in pdf docx pptx xlsx claude-api discernment-nudge skill-creator; do ln -sf ../vendor/anthropics-skills/skills/$skill $skill; done
+  ln -sfn ~/dotfiles/.claude/skills ~/.claude/skills
+  cd ~/dotfiles/.claude/skills && for skill in pdf docx pptx xlsx claude-api discernment-nudge skill-creator; do ln -sfn ../vendor/anthropics-skills/skills/$skill $skill; done
 fi
 
 # mise
@@ -107,8 +107,8 @@ if ! command -v mise >/dev/null 2>&1; then
   echo "  https://mise.jdx.dev/getting-started.html"
 else
   mkdir -p ~/.config/mise
-  ln -sf ~/dotfiles/mise.toml ~/.config/mise/config.toml
-  ln -sf ~/dotfiles/mise.lock ~/.config/mise/mise.lock
+  ln -sfn ~/dotfiles/mise.toml ~/.config/mise/config.toml
+  ln -sfn ~/dotfiles/mise.lock ~/.config/mise/mise.lock
 fi
 
 echo ""
