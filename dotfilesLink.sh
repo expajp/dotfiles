@@ -13,6 +13,14 @@ ln -sf ~/dotfiles/.emacs ~/.emacs
 ln -sf ~/dotfiles/.gitconfig ~/.gitconfig
 ln -sf ~/dotfiles/.hyper.js  ~/.hyper.js
 
+# claude skills
+if ! command -v claude >/dev/null 2>&1; then
+  echo "claude がインストールされていません。先に Claude Code をインストールしてください。"
+  echo "  https://claude.ai/code"
+else
+  ln -sf ~/dotfiles/.claude/skills ~/.claude/skills
+fi
+
 # mise
 if ! command -v mise >/dev/null 2>&1; then
   echo "mise がインストールされていません。先に mise をインストールしてください。"
