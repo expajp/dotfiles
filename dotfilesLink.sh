@@ -18,7 +18,9 @@ if ! command -v claude >/dev/null 2>&1; then
   echo "claude がインストールされていません。先に Claude Code をインストールしてください。"
   echo "  https://claude.ai/code"
 else
+  git -C ~/dotfiles submodule update --init --recursive
   ln -sf ~/dotfiles/.claude/skills ~/.claude/skills
+  cd ~/dotfiles/.claude/skills && for skill in pdf docx pptx xlsx claude-api discernment-nudge skill-creator; do ln -sf ../vendor/anthropics-skills/skills/$skill $skill; done
 fi
 
 # mise

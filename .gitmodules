@@ -1,0 +1,3 @@
+[submodule ".claude/vendor/anthropics-skills"]
+	path = .claude/vendor/anthropics-skills
+	url = https://github.com/anthropics/skills
