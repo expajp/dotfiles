@@ -96,7 +96,7 @@ function left-prompt {
 
   user="${back_color}${name_b}${text_color}${name_t}"
   dir="${back_color}${path_b}${text_color}${path_t}"
-  echo "${user}%n%#@%m${back_color}${path_b}${text_color}${name_b}${sharp} ${dir}%~${reset}${text_color}${path_b}${sharp}${reset}\n${text_color}${arrow}→ ${reset}"
+  echo "${user}%n%#@%m${text_color}${path_b}${sharp} ${dir}%~ ${reset}\n${text_color}${arrow}→ ${reset}"
 }
 
 PROMPT=`left-prompt` 
