@@ -22,9 +22,13 @@ source $ZPLUG_HOME/init.zsh
 
 zplug "modules/history", from:prezto
 zplug "modules/directory", from:prezto
-zplug "olets/zsh-autosuggestions-abbreviations-strategy"
 
-if ! zplug check --verbose; then zplug install;fi
+# https://github.com/olets/zsh-autosuggestions-abbreviations-strategy/commit/3ce24713e4a49f9a5060d9016d35f3cd048d1c74
+zplug "olets/zsh-autosuggestions-abbreviations-strategy", 
+  at: 3ce24713e4a49f9a5060d9016d35f3cd048d1c74,
+  frozen: 1
+
+if ! zplug check --verbose; then zplug install; fi
 zplug load #--verbose
 
 # zmv
