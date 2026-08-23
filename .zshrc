@@ -30,7 +30,7 @@ zplug load #--verbose
 
 # zmv
 autoload -Uz zmv
-alias zmv='noglob zmv -W'
+abbr -S zmv='noglob zmv -W' >/dev/null
 
 # zsh-completions, zsh-autosuggestions
 if type brew &>/dev/null; then
@@ -42,59 +42,59 @@ fi
 ZSH_AUTOSUGGEST_STRATEGY=(abbreviations history completion)
 
 # history (prezto modules/history 相当)
-setopt BANG_HIST              # Treat the '!' character specially during expansion.
-setopt EXTENDED_HISTORY       # Write the history file in the ':start:elapsed;command' format.
-setopt SHARE_HISTORY          # Share history between all sessions.
-setopt HIST_EXPIRE_DUPS_FIRST # Expire a duplicate event first when trimming history.
-setopt HIST_IGNORE_DUPS       # Do not record an event that was just recorded again.
-setopt HIST_IGNORE_ALL_DUPS   # Delete an old recorded event if a new event is a duplicate.
-setopt HIST_FIND_NO_DUPS      # Do not display a previously found event.
-setopt HIST_IGNORE_SPACE      # Do not record an event starting with a space.
-setopt HIST_SAVE_NO_DUPS      # Do not write a duplicate event to the history file.
-setopt HIST_VERIFY            # Do not execute immediately upon history expansion.
-setopt HIST_BEEP              # Beep when accessing non-existent history.
+setopt BANG_HIST              # 展開時に '!' 文字を特別扱いする
+setopt EXTENDED_HISTORY       # ':start:elapsed;command' 形式でヒストリファイルに書き込む
+setopt SHARE_HISTORY          # すべてのセッションでヒストリを共有する
+setopt HIST_EXPIRE_DUPS_FIRST # ヒストリ削減時は重複エントリを優先的に削除する
+setopt HIST_IGNORE_DUPS       # 直前と同じコマンドはヒストリに記録しない
+setopt HIST_IGNORE_ALL_DUPS   # 重複するコマンドは古い方を削除する
+setopt HIST_FIND_NO_DUPS      # 検索済みのイベントを再表示しない
+setopt HIST_IGNORE_SPACE      # スペースで始まるコマンドはヒストリに記録しない
+setopt HIST_SAVE_NO_DUPS      # 重複するコマンドをヒストリファイルに書き込まない
+setopt HIST_VERIFY            # ヒストリ展開後すぐに実行しない
+setopt HIST_BEEP              # 存在しないヒストリにアクセスしたときにビープ音を鳴らす
 
-HISTFILE="${HISTFILE:-${ZDOTDIR:-$HOME}/.zsh_history}" # The path to the history file.
-HISTSIZE=10000                                         # The maximum number of events to save in the internal history.
-SAVEHIST=$HISTSIZE                                     # The maximum number of events to save in the history file.
+HISTFILE="${HISTFILE:-${ZDOTDIR:-$HOME}/.zsh_history}" # ヒストリファイルのパス
+HISTSIZE=10000                                         # 内部ヒストリに保存する最大イベント数
+SAVEHIST=$HISTSIZE                                     # ヒストリファイルに保存する最大イベント数
 
-alias history-stat="history 0 | awk '{print \$2}' | sort | uniq -c | sort -n -r | head"
+abbr -S history-stat="history 0 | awk '{print \$2}' | sort | uniq -c | sort -n -r | head" >/dev/null
 
 # directory (prezto modules/directory 相当)
-setopt AUTO_CD              # Auto changes to a directory without typing cd.
-setopt AUTO_PUSHD           # Push the old directory onto the stack on cd.
-setopt PUSHD_IGNORE_DUPS    # Do not store duplicates in the stack.
-setopt PUSHD_SILENT         # Do not print the directory stack after pushd or popd.
-setopt PUSHD_TO_HOME        # Push to home directory when no argument is given.
-setopt CDABLE_VARS          # Change directory to a path stored in a variable.
-setopt MULTIOS              # Write to multiple descriptors.
-setopt EXTENDED_GLOB        # Use extended globbing syntax.
-unsetopt CLOBBER            # Do not overwrite existing files with > and >>.
-                            # Use >! and >>! to bypass.
+setopt AUTO_CD              # cd なしでディレクトリ名だけで移動する
+setopt AUTO_PUSHD           # cd 時に元のディレクトリをスタックに積む
+setopt PUSHD_IGNORE_DUPS    # スタックに重複を記録しない
+setopt PUSHD_SILENT         # pushd / popd 後にスタックを表示しない
+setopt PUSHD_TO_HOME        # 引数なしの pushd でホームディレクトリへ移動する
+setopt CDABLE_VARS          # 変数に格納されたパスへ cd できる
+setopt MULTIOS              # 複数のディスクリプタへ出力できる
+setopt EXTENDED_GLOB        # 拡張グロブ構文を使用する
+unsetopt CLOBBER            # > や >> で既存ファイルを上書きしない
+                            # 上書きする場合は >! や >>! を使う
 
-alias -- -='cd -'
-alias d='dirs -v'
-for index ({1..9}) alias "$index"="cd +${index}"; unset index
+abbr -S -- -='cd -' >/dev/null
+abbr -S d='dirs -v' >/dev/null
+for index ({1..9}) abbr -S "$index"="cd +${index}" >/dev/null; unset index
 
-# colors
+# 色設定
 autoload -Uz colors && colors
 
-# use newly installed commands instantly
+# 新しくインストールしたコマンドをすぐに補完候補に反映する
 zstyle ":completion:*:commands" rehash 1
 
-# prompt
+# プロンプト
 export CLICOLOR=1
 
 function left-prompt {
-  name_t='179m%}'      # user name text clolr
-  name_b='000m%}'    # user name background color
-  path_t='255m%}'     # path text clolr
-  path_b='031m%}'   # path background color
-  arrow='087m%}'   # arrow color
-  text_color='%{\e[38;5;'    # set text color
-  back_color='%{\e[30;48;5;' # set background color
-  reset='%{\e[0m%}'   # reset
-  sharp='\uE0B0'      # triangle
+  name_t='179m%}'      # ユーザー名テキスト色
+  name_b='000m%}'    # ユーザー名背景色
+  path_t='255m%}'     # パステキスト色
+  path_b='031m%}'   # パス背景色
+  arrow='087m%}'   # 矢印色
+  text_color='%{\e[38;5;'    # テキスト色を設定
+  back_color='%{\e[30;48;5;' # 背景色を設定
+  reset='%{\e[0m%}'   # リセット
+  sharp=''      # 三角形（パワーライン記号）
 
   user="${back_color}${name_b}${text_color}${name_t}"
   dir="${back_color}${path_b}${text_color}${path_t}"
@@ -107,13 +107,13 @@ PROMPT=`left-prompt`
 function rprompt-git-current-branch {
   local branch_name st branch_status
 
-  branch='\ue0a0'
+  branch=''
   color='%{\e[38;5;' #  文字色を設定
   green='114m%}'
   red='001m%}'
   yellow='227m%}'
   blue='033m%}'
-  reset='%{\e[0m%}'   # reset
+  reset='%{\e[0m%}'   # リセット
 
   if [ ! -e  ".git" ]; then
     # git 管理されていないディレクトリは何も返さない
