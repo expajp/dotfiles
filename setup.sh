@@ -111,17 +111,35 @@ else
 fi
 
 # claude skills
-# 自作スキルは ~/dotfiles/.claude/skills/ に実体があり、外部スキルは
-# skills-lock.json から .agents/skills/ に復元する。.claude/skills/<name> は
-# ../../.agents/skills/<name> への相対 symlink としてコミット済み。
+# ~/.claude/skills を実ディレクトリとして持ち、そこへ 2 種類の symlink を束ねる。
+#   自作スキル : ~/dotfiles/.claude/skills/<name> へ（このブロックで張る）
+#   外部スキル : ~/dotfiles/.agents/skills/<name> へ（skills.sh が張る）
 if ! command -v claude >/dev/null 2>&1; then
   echo "claude がインストールされていません。先に Claude Code をインストールしてください。"
   echo "  https://claude.ai/code"
-elif ! mise exec -- skills --version >/dev/null 2>&1; then
-  echo "skills CLI が見つかりません。mise install が成功しているか確認してください。"
 else
-  ln -sfn ~/dotfiles/.claude/skills ~/.claude/skills
-  ~/bin/skills.sh experimental_install
+  # 旧方針では ~/.claude/skills 自体が dotfiles への symlink だった。実ディレクトリへ
+  # 移行するため、symlink なら先に外す。symlink を消してもリンク先は残る。
+  if [ -L ~/.claude/skills ]; then
+    rm -f ~/.claude/skills
+  fi
+  mkdir -p ~/.claude/skills
+
+  # 自作スキルを配る。直下に SKILL.md があるディレクトリだけを対象にする。
+  for skill_dir in ~/dotfiles/.claude/skills/*/; do
+    if [ ! -f "$skill_dir/SKILL.md" ]; then
+      continue
+    fi
+    skill_name=$(basename "$skill_dir")
+    ln -sfn "$HOME/dotfiles/.claude/skills/$skill_name" "$HOME/.claude/skills/$skill_name"
+  done
+
+  # 外部スキルを skills-lock.json から復元する。symlink は skills.sh が張る。
+  if mise exec -- skills --version >/dev/null 2>&1; then
+    ~/bin/skills.sh experimental_install
+  else
+    echo "skills CLI が見つかりません。mise install が成功しているか確認してください。"
+  fi
 fi
 
 echo ""
