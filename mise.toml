@@ -1,5 +1,6 @@
 [tools]
 node = "24"
+"npm:skills" = "latest"
 ruby = "4"
 
 [settings]
