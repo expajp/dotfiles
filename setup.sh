@@ -77,6 +77,13 @@ rm -f ~/bin/switch.sh
 cp -f ~/dotfiles/switch.sh ~/bin/switch.sh
 chmod 755 ~/bin/switch.sh
 
+# copy skills.sh（npx skills の実体。.zshrc の abbr で展開される）
+# 旧バージョンのスクリプトが symlink で配置していた場合、コピー元と同一ファイルに
+# なってしまい cp が失敗するため、先に既存のリンク/ファイルを削除しておく
+rm -f ~/bin/skills.sh
+cp -f ~/dotfiles/scripts/skills.sh ~/bin/skills.sh
+chmod 755 ~/bin/skills.sh
+
 # GNU tools へのシンボリックリンク
 ln -sfn `which gawk` $HOME/bin/awk
 ln -sfn `which gsed` $HOME/bin/sed
@@ -91,17 +98,7 @@ ln -sfn ~/dotfiles/.emacs ~/.emacs
 ln -sfn ~/dotfiles/.gitconfig ~/.gitconfig
 ln -sfn ~/dotfiles/.hyper.js  ~/.hyper.js
 
-# claude skills
-if ! command -v claude >/dev/null 2>&1; then
-  echo "claude がインストールされていません。先に Claude Code をインストールしてください。"
-  echo "  https://claude.ai/code"
-else
-  git -C ~/dotfiles submodule update --init --recursive
-  ln -sfn ~/dotfiles/.claude/skills ~/.claude/skills
-  cd ~/dotfiles/.claude/skills && for skill in pdf docx pptx xlsx claude-api discernment-nudge skill-creator; do ln -sfn ../vendor/anthropics-skills/skills/$skill $skill; done
-fi
-
-# mise
+# mise（node と skills CLI もここで入る）
 if ! command -v mise >/dev/null 2>&1; then
   echo "mise がインストールされていません。先に mise をインストールしてください。"
   echo "  https://mise.jdx.dev/getting-started.html"
@@ -109,6 +106,22 @@ else
   mkdir -p ~/.config/mise
   ln -sfn ~/dotfiles/mise.toml ~/.config/mise/config.toml
   ln -sfn ~/dotfiles/mise.lock ~/.config/mise/mise.lock
+  mise trust ~/dotfiles/mise.toml
+  mise install
+fi
+
+# claude skills
+# 自作スキルは ~/dotfiles/.claude/skills/ に実体があり、外部スキルは
+# skills-lock.json から .agents/skills/ に復元する。.claude/skills/<name> は
+# ../../.agents/skills/<name> への相対 symlink としてコミット済み。
+if ! command -v claude >/dev/null 2>&1; then
+  echo "claude がインストールされていません。先に Claude Code をインストールしてください。"
+  echo "  https://claude.ai/code"
+elif ! mise exec -- skills --version >/dev/null 2>&1; then
+  echo "skills CLI が見つかりません。mise install が成功しているか確認してください。"
+else
+  ln -sfn ~/dotfiles/.claude/skills ~/.claude/skills
+  ~/bin/skills.sh experimental_install
 fi
 
 echo ""

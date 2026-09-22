@@ -151,6 +151,7 @@ RPROMPT='`rprompt-git-current-branch`'
 # abbrs
 abbr -S greset='git reset --hard HEAD' >/dev/null
 abbr -S switch='switch.sh' >/dev/null
+abbr -S 'npx skills'='skills.sh' >/dev/null
 abbr -S dtfmt='+\"%Y%m%d\"' >/dev/null
 abbr -S currentbranch='git rev-parse --abbrev-ref HEAD | pbcopy && pbpaste' >/dev/null
 abbr -S restore='git restore .' >/dev/null
