@@ -99,6 +99,8 @@ ln -sfn ~/dotfiles/.gitconfig ~/.gitconfig
 ln -sfn ~/dotfiles/.hyper.js  ~/.hyper.js
 
 # mise（node と skills CLI もここで入る）
+echo ""
+echo "===== mise からバイナリをインストール ====="
 if ! command -v mise >/dev/null 2>&1; then
   echo "mise がインストールされていません。先に mise をインストールしてください。"
   echo "  https://mise.jdx.dev/getting-started.html"
@@ -114,6 +116,8 @@ fi
 # ~/.claude/skills を実ディレクトリとして持ち、そこへ 2 種類の symlink を束ねる。
 #   自作スキル : ~/dotfiles/.claude/skills/<name> へ（このブロックで張る）
 #   外部スキル : ~/dotfiles/.agents/skills/<name> へ（skills.sh が張る）
+echo ""
+echo "===== claude skills のインストール ====="
 if ! command -v claude >/dev/null 2>&1; then
   echo "claude がインストールされていません。先に Claude Code をインストールしてください。"
   echo "  https://claude.ai/code"
