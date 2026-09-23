@@ -25,6 +25,41 @@ cd "$HOME/dotfiles"
 LOCK="skills-lock.json"
 CLAUDE_SKILLS="$HOME/.claude/skills"
 
+# skills-lock.json に載っている外部スキル名を 1 行ずつ出す。
+lock_skill_names() {
+  if [ ! -f "$LOCK" ]; then
+    return 0
+  fi
+  sed -n 's/^    "\([^"]*\)": {$/\1/p' "$LOCK"
+}
+
+# skills CLI を静かに実行する。
+# CLI はスキル 1 件ごとに Source / Cloning / Summary / Security / Installed の
+# バナーを出すため、そのまま流すと復元だけで 400 行を超える。成功時は結果行
+# （✓ <skill> (copied)）だけに絞り、失敗したときは原因が追えるよう全文を出す。
+# lock の件数より結果行が少ない場合も、取りこぼしとみなして全文を出す。
+run_skills_quietly() {
+  out=$(mise exec -- skills "$@" 2>&1) && status=0 || status=$?
+
+  if [ "$status" -ne 0 ]; then
+    printf '%s\n' "$out" >&2
+    return "$status"
+  fi
+
+  # 枠線と前後の空白を落として結果行だけ残す
+  printf '%s\n' "$out" \
+    | grep '✓' \
+    | sed -e 's/│//g' -e 's/^[[:space:]]*/  /' -e 's/[[:space:]]*$//' \
+    || true
+
+  installed=$(printf '%s\n' "$out" | grep -c '✓' || true)
+  expected=$(lock_skill_names | wc -l | tr -d ' ')
+  if [ "$installed" -lt "$expected" ]; then
+    echo "警告: skills-lock.json の $expected 件に対し $installed 件しか結果が出ていません。全文を出します。" >&2
+    printf '%s\n' "$out" >&2
+  fi
+}
+
 # skills-lock.json に載っている外部スキルについて、~/.claude/skills/<name> から
 # ~/dotfiles/.agents/skills/<name> への symlink を張る。あわせて、実体が消えた
 # スキルのリンク切れ symlink を片付ける。
@@ -43,7 +78,7 @@ link_claude_skills() {
     return 0
   fi
 
-  sed -n 's/^    "\([^"]*\)": {$/\1/p' "$LOCK" | while read -r name; do
+  lock_skill_names | while read -r name; do
     if [ ! -d ".agents/skills/$name" ]; then
       continue
     fi
@@ -71,7 +106,7 @@ case "$cmd" in
     link_claude_skills
     ;;
   experimental_install)
-    mise exec -- skills experimental_install "$@"
+    run_skills_quietly experimental_install "$@"
     link_claude_skills
     ;;
   remove|rm|r|update|upgrade)
