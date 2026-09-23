@@ -10,6 +10,8 @@ brew "emacs"
 brew "findutils"
 # GNU awk utility
 brew "gawk"
+# GitHub command-line tool
+brew "gh"
 # Distributed revision control system
 brew "git"
 # GNU implementation of the famous stream editor
